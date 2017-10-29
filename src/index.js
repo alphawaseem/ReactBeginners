@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
 import './index.css';
-import StorePicker from './components/StorePicker';
+import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 
 
-render(<StorePicker />, document.getElementById('root'));
+render(<App />, document.getElementById('root'));
 registerServiceWorker();
