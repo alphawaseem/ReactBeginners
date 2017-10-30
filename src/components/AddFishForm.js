@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 export class AddFishForm extends Component {
 
-  state = {
+  emptyState = {
     name: '',
     price: '',
     status: 'unavailable',
@@ -10,17 +10,18 @@ export class AddFishForm extends Component {
     image: ''
 
   }
+  state = this.emptyState;
 
   onSubmit = (event) => {
     event.preventDefault();
-    let fish = {...this.state};
+    let fish = { key: Date.now(), ...this.state };
     this.props.onFishFormSubmit(fish);
-    this.fishForm.reset();
+    this.setState(this.emptyState);
   }
 
   onInputChange = (event) => {
     let key = event.target.name;
-    let state = {...this.state};
+    let state = { ...this.state };
     state[key] = event.target.value;
     this.props.onInputChange(state);
     this.setState(state);
@@ -31,7 +32,7 @@ export class AddFishForm extends Component {
       <form ref={(form) => { this.fishForm = form }} onSubmit={this.onSubmit} className="fish-edit">
         <input type="text" placeholder="Fish Name" name="name" value={this.state.name} onChange={this.onInputChange} />
         <input type="text" placeholder="Fish Price" name="price" value={this.state.price} onChange={this.onInputChange} />
-        <select placeholder="Fish Status"  value={this.state.status} name="status" onChange={this.onInputChange} >
+        <select placeholder="Fish Status" value={this.state.status} name="status" onChange={this.onInputChange} >
           <option value="available" name="status" onChange={this.onInputChange}>Fresh</option>
           <option value="unavailable" name="status" onChange={this.onInputChange}>Sold Out!</option>
         </select>

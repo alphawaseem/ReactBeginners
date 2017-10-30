@@ -15,7 +15,10 @@ export class App extends Component {
     this.setState({
       fishPreview: ''
     });
-    console.log('adding ', fish);
+    let newFishes = {...this.state.fishes,fish};
+    this.setState({
+      fishes : newFishes
+    });
   }
 
   onInputChange = (fishState) => {
