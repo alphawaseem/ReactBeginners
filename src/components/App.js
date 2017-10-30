@@ -3,16 +3,17 @@ import { Header } from './Header';
 import { Order } from './Order';
 import { Inventory } from './Inventory';
 import { Fish } from "./Fish";
-
+import sampleFishes from "../sample-fishes";
 export class App extends Component {
 
   state = {
-    fishPreview: ''
+    fishPreview: '',
+    fishes: sampleFishes
   }
 
   onFishFormSubmit = (fish) => {
     this.setState({
-      fishPreview : ''
+      fishPreview: ''
     });
     console.log('adding ', fish);
   }
@@ -25,11 +26,18 @@ export class App extends Component {
       <div className="catch-of-the-day">
         <div className="menu">
           <Header tagline="Fresh SeaFood Market" />
-          {this.state.fishPreview ? <div>
-            <h3>Preview</h3>
-            <Fish details={this.state.fishPreview} />
-          </div> : ''}
 
+          <ul className="list-of-fishes">
+            {this.state.fishPreview ? <div>
+              <h3>Preview</h3>
+              <Fish details={this.state.fishPreview} />
+            </div> : ''}
+            {
+              Object
+                .keys(this.state.fishes)
+                .map(key => <Fish key={key} details={this.state.fishes[key]} />)
+            }
+          </ul>
         </div>
         <Order />
         <Inventory onFishFormSubmit={this.onFishFormSubmit} onInputChange={this.onInputChange} />
