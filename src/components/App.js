@@ -8,16 +8,27 @@ export class App extends Component {
 
   state = {
     fishPreview: '',
-    fishes: sampleFishes
+    fishes: sampleFishes,
+    order: {}
+  }
+
+  addToOrder = (key) => {
+    let order = this.getStateCopy().order;
+    order[key] = order[key] + 1 || 1;
+    this.setState({ order });
+  }
+
+  getStateCopy() {
+    return { ...this.state };
   }
 
   onFishFormSubmit = (fish) => {
     this.setState({
       fishPreview: ''
     });
-    let newFishes = {...this.state.fishes,fish};
+    let newFishes = { ...this.state.fishes, fish };
     this.setState({
-      fishes : newFishes
+      fishes: newFishes
     });
   }
 
@@ -38,11 +49,11 @@ export class App extends Component {
             {
               Object
                 .keys(this.state.fishes)
-                .map(key => <Fish key={key} details={this.state.fishes[key]} />)
+                .map(key => <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder}/>)
             }
           </ul>
         </div>
-        <Order />
+        <Order fishes={this.state.fishes} order={this.state.order} />
         <Inventory onFishFormSubmit={this.onFishFormSubmit} onInputChange={this.onInputChange} />
       </div>
     )
