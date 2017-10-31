@@ -5,7 +5,7 @@ export class AddFishForm extends Component {
   emptyState = {
     name: '',
     price: '',
-    status: 'unavailable',
+    status: 'available',
     desc: '',
     image: ''
 
