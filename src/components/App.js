@@ -4,7 +4,20 @@ import { Order } from './Order';
 import { Inventory } from './Inventory';
 import { Fish } from "./Fish";
 import sampleFishes from "../sample-fishes";
+import base from '../base';
+
 export class App extends Component {
+
+  componentWillUnmount(){
+    base.removeBinding(this.baseRef);
+  }
+
+  componentWillMount(){
+    this.baseRef = base.syncState(`${this.props.match.params.storeId}/fishes`,{
+      context : this,
+      state : 'fishes'
+    });
+  }
 
   state = {
     fishPreview: '',
@@ -35,6 +48,7 @@ export class App extends Component {
   onInputChange = (fishState) => {
     this.setState({ fishPreview: fishState });
   }
+
   render() {
     return (
       <div className="catch-of-the-day">
