@@ -14,8 +14,8 @@ export class AddFishForm extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    let fish = { key: Date.now(), ...this.state };
-    this.props.onFishFormSubmit(fish);
+    
+    this.props.onFishFormSubmit(this.state);
     this.setState(this.emptyState);
   }
 

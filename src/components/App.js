@@ -3,26 +3,29 @@ import { Header } from './Header';
 import { Order } from './Order';
 import { Inventory } from './Inventory';
 import { Fish } from "./Fish";
-import sampleFishes from "../sample-fishes";
 import base from '../base';
 
 export class App extends Component {
 
-  componentWillUnmount(){
+  componentWillUpdate(nextProps, nextState) {
+    localStorage.setItem(`order-${this.props.match.params.storeId}`, JSON.stringify(nextState.fishes));
+  }
+
+  componentWillUnmount() {
     base.removeBinding(this.baseRef);
   }
 
-  componentWillMount(){
-    this.baseRef = base.syncState(`${this.props.match.params.storeId}/fishes`,{
-      context : this,
-      state : 'fishes'
+  componentWillMount() {
+    this.baseRef = base.syncState(`${this.props.match.params.storeId}/fishes`, {
+      context: this,
+      state: 'fishes'
     });
   }
 
   state = {
     fishPreview: '',
-    fishes: sampleFishes,
-    order: {}
+    order: {},
+    fishes: {}
   }
 
   addToOrder = (key) => {
@@ -39,7 +42,7 @@ export class App extends Component {
     this.setState({
       fishPreview: ''
     });
-    let newFishes = { ...this.state.fishes, fish };
+    let newFishes = { ...this.state.fishes, [`fish-${Date.now()}`]: fish };
     this.setState({
       fishes: newFishes
     });
@@ -63,7 +66,7 @@ export class App extends Component {
             {
               Object
                 .keys(this.state.fishes)
-                .map(key => <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder}/>)
+                .map(key => <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder} />)
             }
           </ul>
         </div>
