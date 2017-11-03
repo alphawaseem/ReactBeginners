@@ -8,7 +8,7 @@ import base from '../base';
 export class App extends Component {
 
   componentWillUpdate(nextProps, nextState) {
-    localStorage.setItem(`order-${this.props.match.params.storeId}`, JSON.stringify(nextState.fishes));
+    localStorage.setItem(`order-${this.props.match.params.storeId}`, JSON.stringify(nextState.order));
   }
 
   componentWillUnmount() {
@@ -20,6 +20,12 @@ export class App extends Component {
       context: this,
       state: 'fishes'
     });
+    let localStorageRef = localStorage.getItem(`order-${this.props.match.params.storeId}`);
+    if (localStorageRef) {
+      this.setState({
+        order: JSON.parse(localStorageRef)
+      });
+    }
   }
 
   state = {
@@ -52,6 +58,12 @@ export class App extends Component {
     this.setState({ fishPreview: fishState });
   }
 
+  updateFish = (key, updatedFish) => {
+    let fishes = { ...this.state.fishes }
+    fishes[key] = updatedFish;
+    this.setState({ fishes })
+  }
+
   render() {
     return (
       <div className="catch-of-the-day">
@@ -71,7 +83,7 @@ export class App extends Component {
           </ul>
         </div>
         <Order fishes={this.state.fishes} order={this.state.order} />
-        <Inventory onFishFormSubmit={this.onFishFormSubmit} onInputChange={this.onInputChange} />
+        <Inventory updateFish={this.updateFish} fishes={this.state.fishes} onFishFormSubmit={this.onFishFormSubmit} onInputChange={this.onInputChange} />
       </div>
     )
   }
