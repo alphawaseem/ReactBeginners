@@ -64,6 +64,13 @@ export class App extends Component {
     this.setState({ fishes })
   }
 
+  deleteOrder = (key) => {
+    let state = { ...this.state };
+    delete state.order[key];
+    this.setState(state);
+  }
+
+
   render() {
     return (
       <div className="catch-of-the-day">
@@ -82,7 +89,7 @@ export class App extends Component {
             }
           </ul>
         </div>
-        <Order fishes={this.state.fishes} order={this.state.order} />
+        <Order deleteOrder={this.deleteOrder} fishes={this.state.fishes} order={this.state.order} />
         <Inventory updateFish={this.updateFish} fishes={this.state.fishes} onFishFormSubmit={this.onFishFormSubmit} onInputChange={this.onInputChange} />
       </div>
     )
